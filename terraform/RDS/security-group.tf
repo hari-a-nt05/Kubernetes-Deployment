@@ -1,13 +1,13 @@
 resource "aws_security_group" "rds" {
-  name        = "flask-notes-rds-sg"
-  description = "Allow MySQL from EKS VPC"
+  name        = "hari-rds-sg"
+  description = "Allow MySQL access from EKS VPC"
   vpc_id      = data.aws_vpc.main.id
 
   ingress {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = ["10.0.0.0/16"]  # EKS VPC CIDR
   }
 
   egress {
@@ -18,6 +18,8 @@ resource "aws_security_group" "rds" {
   }
 
   tags = {
-    Project = "flask-notes"
+    Name    = "hari-rds-sg"
+    Project = "hari-project"
+    Owner   = "hariharan"
   }
 }

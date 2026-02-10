@@ -1,13 +1,13 @@
 variable "db_name" {
   description = "Database name"
   type        = string
-  default     = "hari-db"
+  default     = "haridb"
 }
 
 variable "db_username" {
   description = "Master DB username"
   type        = string
-  default     = "admin"
+  default     = "hariadmin"
 }
 
 variable "db_password" {
