@@ -1,8 +1,13 @@
-# Get VPC IDs matching name + CIDR
+# Get VPC IDs (must match exactly one)
 data "aws_vpcs" "main" {
   filter {
     name   = "tag:Name"
     values = ["flask-notes-vpc"]
+  }
+
+  filter {
+    name   = "tag:Project"
+    values = ["flask-notes"]
   }
 
   filter {
@@ -11,12 +16,12 @@ data "aws_vpcs" "main" {
   }
 }
 
-# Convert to a single VPC
+# Convert to single VPC (safe now)
 data "aws_vpc" "main" {
   id = one(data.aws_vpcs.main.ids)
 }
 
-# Get private subnets from that VPC
+# Fetch private subnets from that VPC
 data "aws_subnets" "private" {
   filter {
     name   = "vpc-id"
