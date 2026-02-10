@@ -5,5 +5,5 @@ variable "aws_region" {
 
 variable "ecr_repository_name" {
   type    = string
-  default = "ecr-repo"
+  default = "hari-repo"
 }
