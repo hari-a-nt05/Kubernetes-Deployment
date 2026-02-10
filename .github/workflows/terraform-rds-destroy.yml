@@ -25,10 +25,10 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd terraform/rds
+          cd terraform/RDS
           terraform init
 
       - name: Terraform Destroy
         run: |
-          cd terraform/rds
+          cd terraform/RDS
           terraform destroy -auto-approve

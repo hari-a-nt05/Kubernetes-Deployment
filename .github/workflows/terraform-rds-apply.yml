@@ -26,15 +26,15 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd terraform/rds
+          cd terraform/RDS
           terraform init
 
       - name: Terraform Plan
         run: |
-          cd terraform/rds
+          cd terraform/RDS
           terraform plan -input=false
 
       - name: Terraform Apply
         run: |
-          cd terraform/rds
+          cd terraform/RDS
           terraform apply -auto-approve -input=false
