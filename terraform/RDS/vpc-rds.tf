@@ -1,5 +1,5 @@
-# Get VPC IDs (must match exactly one)
-data "aws_vpcs" "main" {
+# Fetch EXACT VPC (must be unique)
+data "aws_vpc" "main" {
   filter {
     name   = "tag:Name"
     values = ["flask-notes-vpc"]
@@ -14,11 +14,6 @@ data "aws_vpcs" "main" {
     name   = "cidr-block"
     values = ["10.0.0.0/16"]
   }
-}
-
-# Convert to single VPC (safe now)
-data "aws_vpc" "main" {
-  id = one(data.aws_vpcs.main.ids)
 }
 
 # Fetch private subnets from that VPC
