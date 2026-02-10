@@ -1,7 +1,7 @@
 variable "db_name" {
   description = "Database name"
   type        = string
-  default     = "flask_notes"
+  default     = "hari-db"
 }
 
 variable "db_username" {
