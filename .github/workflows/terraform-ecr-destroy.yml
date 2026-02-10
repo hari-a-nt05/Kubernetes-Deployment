@@ -22,10 +22,10 @@ jobs:
 
       - name: Terraform Init (ECR)
         run: |
-          cd terraform/ECR
+          cd terraform/ecr
           terraform init
 
       - name: Terraform Destroy (ECR)
         run: |
-          cd terraform/ECR
+          cd terraform/ecr
           terraform destroy -auto-approve

@@ -1,0 +1,48 @@
+name: Kubernetes Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install kubectl
+        run: |
+            KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+            curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+            chmod +x kubectl
+            sudo mv kubectl /usr/local/bin/kubectl
+
+      - name: Update kubeconfig for EKS
+        run: |
+            aws eks update-kubeconfig \
+            --region ${{ secrets.AWS_REGION }} \
+            --name flask-notes-eks
+
+      - name: Apply Kubernetes Secrets
+        run: |
+           kubectl apply -f deployments/rds-secrets.yml
+
+      - name: Run DB migrations
+        run: |
+           kubectl delete job flask-db-init --ignore-not-found
+           kubectl apply -f deployments/db-migrate-job.yml
+           kubectl wait --for=condition=complete job/flask-db-init --timeout=300s
+
+
+      - name: Deploy Flask app
+        run: |
+           kubectl apply -f deployments/flask-deployment.yml
+           kubectl apply -f deployments/flask-service.yml

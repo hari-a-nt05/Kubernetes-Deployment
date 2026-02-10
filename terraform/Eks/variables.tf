@@ -3,7 +3,7 @@ variable "region" {
 }
 
 variable "cluster_name" {
-  default = "hari-eks"
+  default = "flask-notes-eks"
 }
 
 variable "vpc_cidr" {

@@ -7,5 +7,5 @@ variable "aws_region" {
 variable "project_name" {
   description = "Project name prefix"
   type        = string
-  default     = "hari-bucket"
+  default     = "flask-notes"
 }

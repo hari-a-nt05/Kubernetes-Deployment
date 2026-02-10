@@ -22,15 +22,15 @@ jobs:
 
       - name: Terraform Init (ECR)
         run: |
-          cd terraform/ECR
+          cd terraform/ecr
           terraform init
 
       - name: Terraform Plan (ECR)
         run: |
-          cd terraform/ECR
+          cd terraform/ecr
           terraform plan
 
       - name: Terraform Apply (ECR)
         run: |
-          cd terraform/ECR
+          cd terraform/ecr
           terraform apply -auto-approve

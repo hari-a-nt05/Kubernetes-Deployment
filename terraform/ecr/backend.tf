@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "hari-bucket-terraform-state"
+    bucket         = "flask-notes-terraform-state"
     key            = "ecr/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "hari-bucket-terraform-locks"
+    dynamodb_table = "flask-notes-terraform-locks"
     encrypt        = true
   }
 }

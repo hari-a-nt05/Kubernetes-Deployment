@@ -1,4 +1,4 @@
-name: Terraform EKS Apply
+name: Terraform RDS Destroy
 
 on:
   workflow_dispatch:
@@ -25,15 +25,10 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd terraform/Eks
+          cd terraform/rds
           terraform init
 
-      - name: Terraform Plan
+      - name: Terraform Destroy
         run: |
-          cd terraform/Eks
-          terraform plan
-
-      - name: Terraform Apply
-        run: |
-          cd terraform/Eks
-          terraform apply -auto-approve
+          cd terraform/rds
+          terraform destroy -auto-approve

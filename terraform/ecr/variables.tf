@@ -5,5 +5,5 @@ variable "aws_region" {
 
 variable "ecr_repository_name" {
   type    = string
-  default = "hari-repo"
+  default = "flask-notes-app"
 }

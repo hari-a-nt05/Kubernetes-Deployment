@@ -64,6 +64,7 @@ def create_app():
     # ------------------------
     # Controlled DB initialization
     # ------------------------
+    # IMPORTANT:
     # Enable ONLY once (prevents Gunicorn / EKS race conditions)
     if os.getenv("RUN_DB_MIGRATIONS") == "true":
         with app.app_context():
