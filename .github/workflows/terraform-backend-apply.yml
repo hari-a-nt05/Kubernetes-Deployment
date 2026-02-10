@@ -25,15 +25,15 @@ jobs:
 
       - name: Terraform Init (Backend)
         run: |
-          cd terraform/backend
+          cd terraform/Backend
           terraform init
 
       - name: Terraform Plan (Backend)
         run: |
-          cd terraform/backend
+          cd terraform/Backend
           terraform plan
 
       - name: Terraform Apply (Backend)
         run: |
-          cd terraform/backend
+          cd terraform/Backend
           terraform apply -auto-approve
