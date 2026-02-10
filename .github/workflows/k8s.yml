@@ -18,31 +18,36 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # ✅ Install kubectl (stable & clean)
       - name: Install kubectl
-        run: |
-            KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
-            curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
-            chmod +x kubectl
-            sudo mv kubectl /usr/local/bin/kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
 
+      # ✅ Update kubeconfig (HARDCODED cluster name)
       - name: Update kubeconfig for EKS
         run: |
-            aws eks update-kubeconfig \
+          aws eks update-kubeconfig \
             --region ${{ secrets.AWS_REGION }} \
-            --name flask-notes-eks
+            --name hari-eks
 
+      # ✅ Verify EKS access
+      - name: Verify cluster access
+        run: kubectl get nodes
+
+      # ✅ Apply RDS secrets
       - name: Apply Kubernetes Secrets
-        run: |
-           kubectl apply -f deployments/rds-secrets.yml
+        run: kubectl apply -f deployments/rds-secrets.yml
 
+      # ✅ Run DB migration job
       - name: Run DB migrations
         run: |
-           kubectl delete job flask-db-init --ignore-not-found
-           kubectl apply -f deployments/db-migrate-job.yml
-           kubectl wait --for=condition=complete job/flask-db-init --timeout=300s
+          kubectl delete job flask-db-init --ignore-not-found
+          kubectl apply -f deployments/db-migrate-job.yml
+          kubectl wait --for=condition=complete job/flask-db-init --timeout=300s
 
-
+      # ✅ Deploy Flask application
       - name: Deploy Flask app
         run: |
-           kubectl apply -f deployments/flask-deployment.yml
-           kubectl apply -f deployments/flask-service.yml
+          kubectl apply -f deployments/flask-deployment.yml
+          kubectl apply -f deployments/flask-service.yml
