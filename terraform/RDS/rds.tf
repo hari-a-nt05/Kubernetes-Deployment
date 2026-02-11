@@ -1,9 +1,9 @@
 resource "aws_db_instance" "mysql" {
-  identifier = "flask-notes-mysql"
+  identifier = "hari-mysql"
 
   engine         = "mysql"
   engine_version = "8.0"
-  instance_class = "db.t3.micro"   # minimal but real
+  instance_class = "db.t3.micro"
 
   allocated_storage = 20
   storage_type      = "gp2"
@@ -19,6 +19,6 @@ resource "aws_db_instance" "mysql" {
   publicly_accessible = false
 
   tags = {
-    Project = "hari"
+    Project = "hari-project"
   }
 }
