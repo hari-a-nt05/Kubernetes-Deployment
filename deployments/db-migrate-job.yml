@@ -9,7 +9,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: "393078901209.dkr.ecr.us-east-1.amazonaws.com/hari-repo:latest"
+          image: 393078901209.dkr.ecr.us-east-1.amazonaws.com/hari-repo:latest
           command: ["python"]
           args:
             - "-c"
@@ -18,7 +18,7 @@ spec:
               app = create_app()
               with app.app_context():
                   db.create_all()
-              print("DB migration completed")
+              print("DB migration completed successfully")
           envFrom:
             - secretRef:
-                name: flask-notes-db
+                name: rds-secrets
