@@ -11,7 +11,5 @@ variable "db_username" {
 }
 
 variable "db_password" {
-  description = "Master DB password"
-  type        = string
-  sensitive   = true
+  default = "hari2415"
 }
