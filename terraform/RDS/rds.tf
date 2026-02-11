@@ -19,6 +19,6 @@ resource "aws_db_instance" "mysql" {
   publicly_accessible = false
 
   tags = {
-    Project = "flask-notes"
+    Project = "hari"
   }
 }
