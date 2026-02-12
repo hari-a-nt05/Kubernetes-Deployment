@@ -21,4 +21,4 @@ spec:
               print("DB migration completed successfully")
           envFrom:
             - secretRef:
-                name: rds-secrets
+                name: flask-notes-db
