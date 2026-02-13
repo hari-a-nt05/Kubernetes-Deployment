@@ -22,26 +22,8 @@ jobs:
         with:
           terraform_version: 1.6.6
 
-      - name: Terraform Apply - ECR
+      - name: Terraform Init & Apply (combined)
         run: |
-          cd terraform/ECR
-          terraform init
-          terraform apply -auto-approve
-
-      - name: Terraform Apply - RDS
-        run: |
-          cd terraform/RDS
-          terraform init
-          terraform apply -auto-approve
-
-      - name: Terraform Apply - LOG
-        run: |
-          cd terraform/LOG
-          terraform init
-          terraform apply -auto-approve
-
-      - name: Terraform Apply - EKS
-        run: |
-          cd terraform/EKS
+          cd terraform/combined
           terraform init
           terraform apply -auto-approve
