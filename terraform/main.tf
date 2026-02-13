@@ -65,44 +65,12 @@ resource "aws_cloudwatch_metric_alarm" "error_alarm" {
 }
 
 # -----------------
-# RDS: VPC data, security group, subnet group and DB instance
+# RDS: Security group, subnet group and DB instance
 # -----------------
-data "aws_vpc" "main" {
-  filter {
-    name   = "tag:Name"
-    values = ["flask-notes-vpc"]
-  }
-
-  filter {
-    name   = "tag:Project"
-    values = ["flask-notes"]
-  }
-
-  filter {
-    name   = "cidr-block"
-    values = [var.vpc_cidr]
-  }
-}
-
-data "aws_subnets" "private" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.main.id]
-  }
-
-  filter {
-    name   = "cidr-block"
-    values = [
-      "10.0.101.0/24",
-      "10.0.102.0/24"
-    ]
-  }
-}
-
 resource "aws_security_group" "rds" {
   name        = "hari-rds-sg"
   description = "Allow MySQL access from EKS VPC"
-  vpc_id      = data.aws_vpc.main.id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port   = 3306
@@ -127,7 +95,7 @@ resource "aws_security_group" "rds" {
 
 resource "aws_db_subnet_group" "this" {
   name       = "hari-rds-subnet-group"
-  subnet_ids = data.aws_subnets.private.ids
+  subnet_ids = module.vpc.private_subnets
 
   tags = {
     Name    = "hari-rds-subnet-group"
@@ -204,9 +172,10 @@ module "eks_node_group" {
   source  = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
   version = "20.8.4"
 
-  cluster_name    = module.eks.cluster_name
-  cluster_version = module.eks.cluster_version
-  subnet_ids      = module.vpc.private_subnets
+  cluster_name            = module.eks.cluster_name
+  cluster_version         = module.eks.cluster_version
+  cluster_service_ipv4_cidr = "172.20.0.0/16"
+  subnet_ids              = module.vpc.private_subnets
 
   name = "flask-notes-ng"
 
@@ -215,4 +184,4 @@ module "eks_node_group" {
   min_size     = 1
   max_size     = 2
   desired_size = 1
-}
+
