@@ -22,12 +22,6 @@ jobs:
         with:
           terraform_version: 1.6.6
 
-      - name: Terraform Apply - Backend
-        run: |
-          cd terraform/Backend
-          terraform init
-          terraform apply -auto-approve
-
       - name: Terraform Apply - ECR
         run: |
           cd terraform/ECR

@@ -46,8 +46,4 @@ jobs:
           terraform init
           terraform destroy -auto-approve
 
-      - name: Terraform Destroy - Backend
-        run: |
-          cd terraform/Backend
-          terraform init
-          terraform destroy -auto-approve
+    
