@@ -11,13 +11,6 @@ provider "aws" {
   region = var.aws_region
 }
 
-module "backend" {
-  source = "../Backend"
-
-  aws_region   = var.aws_region
-  project_name = var.project_name
-}
-
 module "ecr" {
   source = "../ECR"
 

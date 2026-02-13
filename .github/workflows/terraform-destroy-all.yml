@@ -22,10 +22,19 @@ jobs:
         with:
           terraform_version: 1.6.6
 
-      - name: Terraform Init & Destroy (combined)
+      - name: Terraform Init & Destroy (combined) using remote backend
         run: |
           cd terraform/combined
-          terraform init
+          terraform init -reconfigure \
+            -backend-config="bucket=hari-backend-terraform-state" \
+            -backend-config="key=combined/terraform.tfstate" \
+            -backend-config="region=${{ secrets.AWS_REGION }}" \
+            -backend-config="dynamodb_table=hari-backend-terraform-locks" \
+            -backend-config="encrypt=true"
           terraform destroy -auto-approve
+
+      - name: Note: backend bucket protected
+        run: |
+          echo "Backend S3 bucket is configured with prevent_destroy=true; do not destroy the backend bucket here."
 
     
