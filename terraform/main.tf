@@ -27,10 +27,6 @@ resource "aws_ecr_repository" "this" {
   }
 }
 
-output "ecr_repository_url" {
-  value = aws_ecr_repository.this.repository_url
-}
-
 # -----------------
 # CloudWatch Log group, metric filter, alarm
 # -----------------
@@ -165,10 +161,6 @@ resource "aws_db_instance" "mysql" {
   }
 }
 
-output "rds_endpoint" {
-  value = aws_db_instance.mysql.endpoint
-}
-
 # -----------------
 # EKS via upstream module
 # -----------------
@@ -223,8 +215,4 @@ module "eks_node_group" {
   min_size     = 1
   max_size     = 2
   desired_size = 1
-}
-
-output "eks_cluster_name" {
-  value = module.eks.cluster_id
 }
