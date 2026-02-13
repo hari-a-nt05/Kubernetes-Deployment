@@ -166,7 +166,7 @@ resource "aws_db_instance" "mysql" {
 # -----------------
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  version = "3.19.0"
+  version = "5.1.2"
 
   name = "${var.project_name}-vpc"
   cidr = var.vpc_cidr
